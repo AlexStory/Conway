@@ -1,11 +1,26 @@
 var matrix = [];
 var $table = document.querySelector('.table');
 var $tr;
+var thecycles =0;
+var $cyclesTag = document.querySelector('.cycles');
+var xcount=0;
+var $liveCount = document.querySelector('.livecount');
 
 document.addEventListener('DOMContentLoaded',function(){
   matrixRandomNine(50,50);
   setInterval(conway, 200);
 });
+
+function countMatrix(){
+  matrix.forEach(function(row){
+    row.forEach(function(cell){
+      if (cell === 1){
+        xcount++;
+      }
+    })
+
+  })
+}
 
 function matrixRandom(x,y){
    matrix=[];
@@ -24,7 +39,7 @@ function matrixRandomNine(x,y){
   for (var i=0 ; i<x; i++){
     matrix[i]=[];
     for(var j=0; j<y ; j++){
-      if(i>2){
+      if(i>9 || j >9){
         matrix[i][j] = 0;
       }else{
         matrix[i][j] = Math.round(Math.random());
@@ -109,7 +124,12 @@ function changeStatus(){
         }
       }
   }
+  xcount = 0;
+  thecycles++;
   matrix = clone;
+  countMatrix();
+  $cyclesTag.innerHTML = 'Cycle: ' + thecycles;
+  $liveCount.innerHTML = 'Live Cells: ' + xcount;
 }
 
 
